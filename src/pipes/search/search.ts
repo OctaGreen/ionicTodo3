@@ -20,7 +20,6 @@ export class SearchPipe implements PipeTransform {
     
     if (!reminders) return [];
     if (!searchText) return reminders;
-    debugger;
     searchText = searchText.toLowerCase();
     return reminders.filter(reminders => {
       if (reminders.tags !== undefined && reminders.title !== undefined && reminders.text !== undefined) {

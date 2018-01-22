@@ -22,6 +22,7 @@ export class NotesPage implements OnInit {
   private searchText: string; // search criteria
   items: Reminder[] = []; // hashed reminders data
   itemsToDisplay: Reminder[] = [];
+  cachedItems: Reminder[] = [];
   private period: string;
   private top = 0;
   private bottom = 0;
@@ -71,6 +72,8 @@ export class NotesPage implements OnInit {
           default:
             this.items = items.reverse();
         }
+        this.cachedItems = [];
+        this.items.forEach( item => this.cachedItems.push(item));
         this.startRender();
       });
 
@@ -90,10 +93,11 @@ export class NotesPage implements OnInit {
    * @param event
    */
   getSearchCriteria(event: any): void {
+   
     console.log(event.target.value);
     this.searchText = event.target.value;
-    debugger;
-    this.items = this.searchPipe.transform(this.items,this.searchText);
+   
+    this.items = this.searchPipe.transform(this.cachedItems,this.searchText);
     this.startRender();
 
   }
