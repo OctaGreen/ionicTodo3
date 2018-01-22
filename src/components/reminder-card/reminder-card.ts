@@ -4,12 +4,6 @@ import { Card } from 'ionic-angular/components/card/card';
 import { ToastController } from 'ionic-angular';
 import { ItemProvider } from '../../providers/item/item';
 
-/**
- * Generated class for the ReminderCardComponent component.
- *
- * See https://angular.io/api/core/Component for more info on Angular
- * Components.
- */
 @Component({
   selector: 'reminder-card',
   templateUrl: 'reminder-card.html'
@@ -29,7 +23,6 @@ export class ReminderCardComponent implements OnInit {
     toast.present();
   }
 
-
   @Input() data: Reminder;
 
   ngOnInit(){
@@ -42,7 +35,4 @@ export class ReminderCardComponent implements OnInit {
       this.itemProvider.removeItem(this.data.key);
     }
   }
-
-
-
 }

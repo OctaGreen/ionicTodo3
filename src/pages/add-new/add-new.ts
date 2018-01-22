@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Item, ItemProvider } from "../../providers/item/item";
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
-
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { Reminder } from '../../app/reminder';
 @IonicPage()
 @Component({
   selector: 'page-add-new',
@@ -15,8 +16,8 @@ export class AddNewPage implements OnInit{
 
   reminder: Reminder = {
     title: '',
-    description: '',
-    dateTimeOfRemind: 0,
+    text: '',
+    dateTime: 0,
     tags: new Array()
   };
 
@@ -27,7 +28,11 @@ export class AddNewPage implements OnInit{
   date: Date;
   time: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private itemProvider: ItemProvider) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private itemProvider: ItemProvider,
+              private localNotifications: LocalNotifications,
+              public alertCtrl: AlertController) {
   }
 
   ngOnInit() {
@@ -58,11 +63,17 @@ export class AddNewPage implements OnInit{
   }
 
   onSubmit({ value, valid }: { value: Reminder, valid: boolean }) {
-      this.reminder.dateTimeOfRemind = this.createFullDateReminder(this.date, this.time);
+      this.reminder.dateTime = this.createFullDateReminder(this.date, this.time);
       this.reminder.tags = this.tagList;
       console.log(this.reminder);
 
-      this.itemProvider.addItem(new Item(this.reminder.title, this.reminder.description, this.reminder.dateTimeOfRemind, this.reminder.tags));
+      this.itemProvider.addItem(new Item(this.reminder.title, this.reminder.text, this.reminder.dateTime, this.reminder.tags));
+
+      this.localNotifications.schedule({
+        title: this.reminder.title,
+        text: this.reminder.text,
+        at: new Date(this.reminder.dateTime)
+      });
 
       this.refreshFields();
 
@@ -73,19 +84,11 @@ export class AddNewPage implements OnInit{
   refreshFields() {
     this.reminder = {
       title: '',
-      description: '',
-      dateTimeOfRemind: 0,
+      text: '',
+      dateTime: 0,
       tags: new Array()
     };
     this.date = null;
     this.time = '';
   }
-
-}
-
-export interface Reminder {
-  title?: string;
-  description?: string;
-  dateTimeOfRemind?: number;
-  tags?: string[];
 }

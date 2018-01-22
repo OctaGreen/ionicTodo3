@@ -4,7 +4,8 @@ import { Reminder } from '../../app/reminder';
 import { ItemProvider } from '../../providers/item/item';
 import { Content } from 'ionic-angular/components/content/content';
 import { FilterProvider } from '../../providers/filter/filter';
-
+import { SearchPipe } from '../../pipes/search/search';
+import { ToastController } from 'ionic-angular';
 @IonicPage()
 @Component({
   selector: 'page-notes',
@@ -12,13 +13,18 @@ import { FilterProvider } from '../../providers/filter/filter';
 })
 export class NotesPage implements OnInit {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-    private itemProvider: ItemProvider, private filterProvider: FilterProvider) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private itemProvider: ItemProvider,
+              private filterProvider: FilterProvider,
+              private searchPipe: SearchPipe,
+              private toastCtrl: ToastController) {
   }
 
   private searchText: string; // search criteria
   items: Reminder[] = []; // hashed reminders data
   itemsToDisplay: Reminder[] = [];
+  cachedItems: Reminder[] = [];
   private period: string;
   private top = 0;
   private bottom = 0;
@@ -26,17 +32,9 @@ export class NotesPage implements OnInit {
 
   @ViewChild(Content) content: Content;
 
-
   ngOnInit() {
-
-
-
     this.filterProvider.currentPeriod.subscribe(period => {
       this.period = period;
-
-      //console.log(this.period);
-
-
       this.itemProvider.getItemsList().subscribe(items => {
         //check period and return list of necessary reminders
         switch (this.period) {
@@ -68,6 +66,8 @@ export class NotesPage implements OnInit {
           default:
             this.items = items.reverse();
         }
+        this.cachedItems = [];
+        this.items.forEach( item => this.cachedItems.push(item));
         this.startRender();
       });
 
@@ -89,11 +89,11 @@ export class NotesPage implements OnInit {
   getSearchCriteria(event: any): void {
     console.log(event.target.value);
     this.searchText = event.target.value;
-
+    this.items = this.searchPipe.transform(this.cachedItems,this.searchText);
+    this.startRender();
   }
 
   doInfinite(infiniteScroll) {
-
 
     setTimeout(() => {
 
@@ -111,24 +111,30 @@ export class NotesPage implements OnInit {
         this.itemsToDisplay.reverse();
       }
 
-
-      //this bastard doesn't work correctly
-
-      //debugger;
       if(this.displayedAll === 2) {
         this.displayedAll = 0
+        this.presentToast('Refreshing ...')
         this.content.scrollToTop();
+        this.bottom = 0;
         this.startRender();
 
       }
 
       //if there is nothing more to load, refresh the list
-      if(this.top === this.items.length -1) {this.displayedAll++};
-
+      if(this.top === this.items.length -1) {
+        this.displayedAll++;
+        //if(this.displayedAll === 1) this.presentToast('Thats all ...')
+      };
 
       infiniteScroll.complete();
     }, 500);
   }
 
-
+  presentToast(toastText: string) {
+    let toast = this.toastCtrl.create({
+      message: toastText,
+      duration: 1200
+    });
+    toast.present();
+  }
 }

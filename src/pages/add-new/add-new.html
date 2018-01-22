@@ -18,24 +18,24 @@
     <!-- Title Input -->
     <ion-list>
       <ion-item>
-        <ion-input type="text" placeholder="Title"  [(ngModel)]="reminder.title" name="title" clearInput></ion-input>
+        <ion-input type="text" placeholder="Title"  [(ngModel)]="reminder.title" name="title" required #title="ngModel" clearInput></ion-input>
       </ion-item>
 
       <!-- Description Input -->
       <ion-item>
-        <ion-input type="text" placeholder="Description" [(ngModel)]="reminder.description" name="description" clearInput></ion-input>
+        <ion-input type="text" placeholder="Description" [(ngModel)]="reminder.text" name="text" required #text="ngModel"clearInput></ion-input>
       </ion-item>
 
       <!-- Date Input -->
       <ion-item>
         <ion-label>Date</ion-label>
-        <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="date" name="date"></ion-datetime>
+        <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="date" name="date" required></ion-datetime>
       </ion-item>
 
       <!-- Time Input -->
       <ion-item>
         <ion-label>Time</ion-label>
-        <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="time" name="time"></ion-datetime>
+        <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="time" required name="time"></ion-datetime>
       </ion-item>
 
       <!-- Tags Input -->
@@ -57,9 +57,9 @@
 
       <br>
       <br>
-      <button ion-button type="submit" full>Create</button>
+      <button [disabled]="!f.form.valid" ion-button type="submit" full>Create</button>
 
     </ion-list>
   </form>
-
+  <button ion-button full (click)="scheduleNotification()">Schedule</button>
 </ion-content>
