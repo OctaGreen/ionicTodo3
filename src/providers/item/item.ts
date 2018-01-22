@@ -19,9 +19,8 @@ export class Item {
 export class ItemProvider {
 
 
-  constructor(private db: AngularFireDatabase) {
-    console.log('Hello ItemProvider Provider');
-  }
+  constructor(private db: AngularFireDatabase) {}
+  
   addItem(item: Item) {
     this.db.list('/items').push(item);
     console.log('addItem: pushing to db');

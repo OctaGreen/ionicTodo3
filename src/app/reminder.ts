@@ -3,4 +3,5 @@ export interface Reminder {
     text?: string;
     dateTime?: number;
     tags?: string[];
+    key?: string;
   }

@@ -62,7 +62,8 @@ export const firebaseConfig = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ItemProvider,
-    FilterProvider
+    FilterProvider,
+    SearchPipe
   ]
 })
 export class AppModule {}

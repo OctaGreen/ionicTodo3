@@ -4,9 +4,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 @Injectable()
 export class FilterProvider {
 
-  constructor() {
-    console.log('Hello FilterProvider Provider');
-  }
+
 
   private period = new BehaviorSubject<string>('all');//for binding between components "tab-bar" and "reminders-list"
   currentPeriod = this.period.asObservable();//for binding between components "tab-bar" and "reminders-list"
