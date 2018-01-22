@@ -94,7 +94,6 @@ export class NotesPage implements OnInit {
    */
   getSearchCriteria(event: any): void {
    
-    console.log(event.target.value);
     this.searchText = event.target.value;
    
     this.items = this.searchPipe.transform(this.cachedItems,this.searchText);
