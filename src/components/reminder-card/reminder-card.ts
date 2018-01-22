@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { Reminder } from '../../app/reminder';
 import { Card } from 'ionic-angular/components/card/card';
 import { ToastController } from 'ionic-angular';
@@ -14,7 +14,7 @@ import { ItemProvider } from '../../providers/item/item';
   selector: 'reminder-card',
   templateUrl: 'reminder-card.html'
 })
-export class ReminderCardComponent implements OnInit {
+export class ReminderCardComponent {
 
   constructor(public toastCtrl: ToastController, private itemProvider: ItemProvider) {}
 
@@ -32,9 +32,6 @@ export class ReminderCardComponent implements OnInit {
 
   @Input() data: Reminder;
 
-  ngOnInit(){
-    console.log(` card ${this.data} initialized` );
-  }
 
   swipe(event: any){
     if(event.direction == '2'){

@@ -4,6 +4,8 @@ import { Reminder } from '../../app/reminder';
 import { ItemProvider } from '../../providers/item/item';
 import { Content } from 'ionic-angular/components/content/content';
 import { FilterProvider } from '../../providers/filter/filter';
+import { SearchPipe } from '../../pipes/search/search';
+import { ToastController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -13,7 +15,8 @@ import { FilterProvider } from '../../providers/filter/filter';
 export class NotesPage implements OnInit {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private itemProvider: ItemProvider, private filterProvider: FilterProvider) {
+    private itemProvider: ItemProvider, private filterProvider: FilterProvider,
+    private searchPipe: SearchPipe, private toastCtrl: ToastController) {
   }
 
   private searchText: string; // search criteria
@@ -89,6 +92,9 @@ export class NotesPage implements OnInit {
   getSearchCriteria(event: any): void {
     console.log(event.target.value);
     this.searchText = event.target.value;
+    debugger;
+    this.items = this.searchPipe.transform(this.items,this.searchText);
+    this.startRender();
 
   }
 
@@ -107,23 +113,28 @@ export class NotesPage implements OnInit {
         this.itemsToDisplay.reverse();
         for(let i = 0; i < 10; i++){
           this.itemsToDisplay.pop();
+          this.bottom++;
         }
         this.itemsToDisplay.reverse();
       }
 
+      //if you try to scroll when all items where loaded second time, reload the list
+      //and scroll to the top
 
-      //this bastard doesn't work correctly
-
-      //debugger;
       if(this.displayedAll === 2) {
         this.displayedAll = 0
+        this.presentToast('Refreshing ...')
         this.content.scrollToTop();
+        this.bottom = 0;
         this.startRender();
 
       }
 
       //if there is nothing more to load, refresh the list
-      if(this.top === this.items.length -1) {this.displayedAll++};
+      if(this.top === this.items.length -1) {
+        this.displayedAll++;
+        //if(this.displayedAll === 1) this.presentToast('Thats all ...')
+      };
 
 
       infiniteScroll.complete();
@@ -131,4 +142,11 @@ export class NotesPage implements OnInit {
   }
 
 
+  presentToast(toastText: string) {
+    let toast = this.toastCtrl.create({
+      message: toastText,
+      duration: 1200
+    });
+    toast.present();
+  }
 }

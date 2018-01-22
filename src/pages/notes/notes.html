@@ -16,7 +16,7 @@
 <ion-content id = "scrollList">
   
   <ion-list>
-    <ion-item  searchText= "searchText" flag="flag" *ngFor="let item of itemsToDisplay | search: searchText">
+    <ion-item  searchText= "searchText"  *ngFor="let item of itemsToDisplay" >
       <reminder-card [data] = "item"></reminder-card>
     </ion-item>
   </ion-list>
