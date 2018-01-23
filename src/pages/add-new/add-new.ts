@@ -90,5 +90,7 @@ export class AddNewPage implements OnInit{
     };
     this.date = null;
     this.time = '';
+    this.title = '';
+    this.tags = [];
   }
 }
