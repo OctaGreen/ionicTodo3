@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "797750503119",
+    "firebase_url": "https://ionictodo-8dafd.firebaseio.com",
+    "project_id": "ionictodo-8dafd",
+    "storage_bucket": "ionictodo-8dafd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:797750503119:android:479b8169a08af8bf",
+        "android_client_info": {
+          "package_name": "gp.ionic.todo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "797750503119-tbvvv79o0cb3nb6sb8vh32652s9vavkp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmZ7Ex6_9eckLojHc-TNDj0a9hxbFC35I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,29 @@
+<!--
+  Generated template for the NotesPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+      <ion-searchbar (ionInput)="getSearchCriteria($event)"></ion-searchbar>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content id = "scrollList">
+
+  <ion-list>
+    <ion-item  searchText= "searchText" flag="flag" *ngFor="let item of itemsToDisplay">
+      <reminder-card [data] = "item"></reminder-card>
+    </ion-item>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles"
+    loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

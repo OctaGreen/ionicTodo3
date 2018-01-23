@@ -1,0 +1,19 @@
+<ion-card (swipe)="swipe($event)">
+  <ion-card-header>
+    {{data.title}}
+  </ion-card-header>
+  <ion-card-content>
+    <ion-grid>
+        <ion-row>{{data.text}}</ion-row>
+        <ion-row>{{data.dateTime | date:'yyyy-MM-dd HH:mm'}}</ion-row>
+        <ion-row justify-content-start >
+          <ion-col col-1 >
+              <ion-badge item-end *ngFor="let tag of data.tags">
+                  {{tag}}
+                </ion-badge>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+  </ion-card-content>
+</ion-card>
+
